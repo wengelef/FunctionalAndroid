@@ -10,44 +10,42 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+/*
         val universalLogger = UniversalAdobeLogger(AdobeAnalyticsTracker())
 
-        universalLogger.trackEvent(MainTracker.MainEvent.MainEvent1)
+        universalLogger.trackEvent(MainTracker.MainEvent.MainEvent1)*/
+
+        val tracker = provideTracker(::adobeTracker, ::mapper)
+
+        tracker.invoke(MainEvent.MainEvent1)
+
     }
 }
 
-interface Tracker<in T : Tracker.Event> {
 
-    interface Event
 
-    fun trackEvent(event: T)
+interface Event
+interface ExternalEvent
+
+fun <T : Event, U : ExternalEvent> provideTracker(
+    tracker: ExternalTracker,
+    eventMapper: T.() -> U): (T) -> Unit = { event -> tracker.invoke(eventMapper(event)) }
+
+typealias ExternalTracker = (ExternalEvent) -> Unit
+
+fun mapper(event: MainEvent): AdobeAnalyticsEvent {
+    return AdobeAnalyticsEvent()
 }
 
-interface MainTracker : Tracker<MainTracker.MainEvent> {
-    sealed class MainEvent : Tracker.Event {
-        object MainEvent1 : MainEvent()
-    }
+sealed class MainEvent : Event {
+
+    object MainEvent1 : MainEvent()
 }
 
-class MainTrackerImpl(private val analyticsTracker: AdobeAnalyticsTracker) : MainTracker {
-
-    override fun trackEvent(event: MainTracker.MainEvent) {
-        when (event) {
-            is MainTracker.MainEvent.MainEvent1 -> analyticsTracker.trackEvent(AdobeAnalyticsEvent())
-        }
-    }
+fun adobeTracker(externalEvent: ExternalEvent) {
+    Log.e("AdobeAnalyticsTracker", "$externalEvent")
 }
 
-class UniversalAdobeLogger(analyticsTracker: AdobeAnalyticsTracker) :
-        MainTracker by MainTrackerImpl(analyticsTracker)
-
-class AdobeAnalyticsTracker {
-    fun trackEvent(event: AdobeAnalyticsEvent) {
-        Log.e("AdobeAnalyticsTracker", "$event")
-    }
-}
-
-class AdobeAnalyticsEvent {
+class AdobeAnalyticsEvent : ExternalEvent {
     // values
 }
