@@ -1,7 +1,8 @@
-package com.wengelef.functionalandroid
+package com.wengelef.functionalandroid.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.wengelef.functionalandroid.R
 
 class MainActivity : AppCompatActivity() {
 
