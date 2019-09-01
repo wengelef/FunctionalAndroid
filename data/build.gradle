@@ -1,0 +1,10 @@
+apply plugin: 'kotlin'
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib"
+
+    implementation project(':domain')
+}
+
+sourceCompatibility = "8"
+targetCompatibility = "8"

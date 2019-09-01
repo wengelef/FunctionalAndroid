@@ -1,0 +1,14 @@
+apply plugin: 'kotlin'
+
+compileKotlin {
+    kotlinOptions {
+        freeCompilerArgs = ["-XXLanguage:+InlineClasses"]
+    }
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib"
+}
+
+sourceCompatibility = "8"
+targetCompatibility = "8"
