@@ -3,9 +3,9 @@ package com.wengelef.functionalandroid.di
 import analyticslibrary.adobeTracker
 import analyticslibrary.loginEventMapper
 import com.wengelef.functionalandroid.viewmodel.LoginViewModel
-import data.loginRepository
-import data.loginUseCase
-import data.validInputToUserName
+import com.wengelef.getUsers
+import com.wengelef.saveUser
+import data.*
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.module.Module
 import org.koin.dsl.module
@@ -20,11 +20,11 @@ object ViewModelModule {
                     ::adobeTracker,
                     ::loginEventMapper
                 ),
-                loginUseCase(
+                getLoginUseCase(
                     ::validInputToUserName,
-                    ::loginRepository,
-                    ::loginService
-                )
+                    loginRepository(loginService(), saveUser(get()))
+                ),
+                getUsersUseCase(usersFromRepository(getUsers(get())))
             )
         }
     }

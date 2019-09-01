@@ -1,8 +1,5 @@
 package analyticslibrary
 
-import tracking.Event
-import tracking.Tracker
-
 typealias AdobeTracker = (AdobeAnalyticsEvent) -> Unit
 
 typealias AdobeEventMapper<T> = T.() -> AdobeAnalyticsEvent

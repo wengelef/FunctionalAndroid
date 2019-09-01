@@ -37,6 +37,8 @@ class LoginFragment : Fragment() {
             }
         }
 
+        loginViewModel.loadUsers()
+
         loginButton.setOnClickListener { loginViewModel.login(username_input.text.toString()) }
     }
 }

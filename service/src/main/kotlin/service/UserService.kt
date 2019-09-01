@@ -1,5 +1,6 @@
 package service
 
+import data.LoginService
 import data.UserDto
 
-fun loginService(username: String): UserDto = UserDto(username)
+fun loginService(): LoginService = { username -> UserDto(username) }

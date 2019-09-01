@@ -26,12 +26,10 @@ android {
 }
 
 dependencies {
-
     def arrow_version = "0.9.0"
     def koin_version = '2.0.1'
     def lifecycle_version = "2.1.0-rc01"
     def multidex_version = "2.0.1"
-
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
@@ -40,6 +38,7 @@ dependencies {
     implementation project(':domain')
     implementation project(':data')
     implementation project(':service')
+    implementation project(':cache')
 
     implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.0.2'

@@ -4,23 +4,36 @@ import domain.*
 
 data class UserDto(val username: String)
 
-typealias LoginWithRepository = (Username, LoginService) -> User
+typealias LoginWithRepository = (Username) -> User
+typealias UsersFromRepository = () -> List<User>
 
 typealias LoginService = (String) -> UserDto
+typealias SaveUserToDB = (UserDto) -> Unit
+
+typealias GetUsersFromDB = () -> List<UserDto>
 
 typealias ValidInputToUsername = (LoginInput.Valid) -> Username
 
 fun validInputToUserName(input: LoginInput.Valid): Username =
     Username(input.value)
 
-fun loginUseCase(
+fun getLoginUseCase(
     inputMapper: ValidInputToUsername,
-    repository: LoginWithRepository,
-    loginService: LoginService): LoginUseCase = { input -> repository(input.let(inputMapper), loginService) }
+    repository: LoginWithRepository): LoginUseCase = { input ->
 
-fun loginRepository(username: Username, loginService: LoginService): User {
-    return loginService(username.value).let(::userDtoToUser)
+    repository(input.let(inputMapper))
 }
 
-internal fun userDtoToUser(userDto: UserDto): User =
+fun loginRepository(loginService: LoginService, saveUserToDB: SaveUserToDB): LoginWithRepository = { username ->
+    val userDto = loginService(username.value)
+    saveUserToDB(userDto)
     User(Username(userDto.username))
+}
+
+fun getUsersUseCase(usersFromRepository: UsersFromRepository): GetUsersUseCase = {
+    usersFromRepository()
+}
+
+fun usersFromRepository(getUsersFromDB: GetUsersFromDB): UsersFromRepository = {
+    getUsersFromDB().map { userDto -> User(Username(userDto.username)) }
+}

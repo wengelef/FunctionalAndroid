@@ -1,0 +1,15 @@
+CREATE TABLE UserEntity (
+  username TEXT NOT NULL
+);
+
+selectAll:
+SELECT *
+FROM UserEntity;
+
+insert:
+INSERT INTO UserEntity(username)
+VALUES (?);
+
+insertUserObject:
+INSERT INTO UserEntity(username)
+VALUES ?;
