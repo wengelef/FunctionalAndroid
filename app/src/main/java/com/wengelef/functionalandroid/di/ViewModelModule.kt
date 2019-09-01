@@ -1,6 +1,6 @@
 package com.wengelef.functionalandroid.di
 
-import analyticslibrary.adobeTracker
+import analyticslibrary.analyticsTracker
 import analyticslibrary.loginEventMapper
 import com.wengelef.functionalandroid.viewmodel.LoginViewModel
 import com.wengelef.getUsers
@@ -17,7 +17,7 @@ object ViewModelModule {
         viewModel {
             LoginViewModel(
                 getTracker(
-                    ::adobeTracker,
+                    ::analyticsTracker,
                     ::loginEventMapper
                 ),
                 getLoginUseCase(
