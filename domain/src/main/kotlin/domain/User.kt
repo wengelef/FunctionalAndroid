@@ -19,6 +19,6 @@ sealed class LoginInput {
 
 data class User(val username: Username)
 
-typealias LoginUseCase = (LoginInput.Valid) -> User
+typealias LoginUseCase = suspend (LoginInput.Valid) -> User
 
-typealias GetUsersUseCase = () -> List<User>
+typealias GetUsersUseCase = suspend () -> List<User>

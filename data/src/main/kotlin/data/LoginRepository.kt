@@ -17,10 +17,7 @@ typealias ValidInputToUsername = (LoginInput.Valid) -> Username
 fun validInputToUserName(input: LoginInput.Valid): Username =
     Username(input.value)
 
-fun getLoginUseCase(
-    inputMapper: ValidInputToUsername,
-    repository: LoginWithRepository): LoginUseCase = { input ->
-
+fun getLoginUseCase(inputMapper: ValidInputToUsername, repository: LoginWithRepository): LoginUseCase = { input ->
     repository(input.let(inputMapper))
 }
 
