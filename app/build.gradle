@@ -30,6 +30,8 @@ dependencies {
     def arrow_version = "0.9.0"
     def koin_version = '2.0.1'
     def lifecycle_version = "2.1.0-rc01"
+    def multidex_version = "2.0.1"
+
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
@@ -43,6 +45,9 @@ dependencies {
 
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+
+    implementation "androidx.multidex:multidex:$multidex_version"
+
 
     implementation 'androidx.navigation:navigation-fragment:2.0.0'
     implementation 'androidx.navigation:navigation-ui:2.0.0'
