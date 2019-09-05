@@ -19,6 +19,14 @@ sealed class LoginInput {
 
 data class User(val username: Username)
 
-typealias LoginUseCase = suspend (LoginInput.Valid) -> User
+typealias LoginUseCaseFn = suspend (LoginInput.Valid) -> User
 
-typealias GetUsersUseCase = suspend () -> List<User>
+inline class LoginUseCase(private val loginUseCaseFn: LoginUseCaseFn) {
+    suspend operator fun invoke(loginInput: LoginInput.Valid) = loginUseCaseFn(loginInput)
+}
+
+typealias GetUsersUseCaseFn = suspend () -> List<User>
+
+inline class GetUsersUseCase(private val getUsersUseCaseFn: GetUsersUseCaseFn) {
+    suspend operator fun invoke() = getUsersUseCaseFn()
+}

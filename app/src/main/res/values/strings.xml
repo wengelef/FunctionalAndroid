@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Functional Android</string>
+    <string name="title_login">Login</string>
 </resources>

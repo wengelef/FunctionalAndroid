@@ -5,11 +5,11 @@ import data.GetUsersFromDB
 import data.SaveUserToDB
 import data.UserDto
 
-fun saveUser(database: Database): SaveUserToDB = { userDto ->
+fun saveUser(database: Database) = SaveUserToDB { userDto ->
     database.userQueries.insert(userDto.username)
 }
 
-fun getUsers(database: Database): GetUsersFromDB = {
+fun getUsers(database: Database) = GetUsersFromDB {
     database.userQueries
         .selectAll()
         .executeAsList()

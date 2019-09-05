@@ -1,5 +1,4 @@
-package com.wengelef.functionalandroid.viewmodel
-
+package com.wengelef.login.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.LiveData
