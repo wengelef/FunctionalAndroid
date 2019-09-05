@@ -1,7 +1,14 @@
 apply plugin: 'kotlin'
 
+test {
+    useJUnitPlatform()
+}
+
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib"
+
+    testImplementation 'io.kotlintest:kotlintest-runner-junit5:3.3.2'
+    testImplementation "io.mockk:mockk:1.9.1"
 
     implementation project(':domain')
 }
