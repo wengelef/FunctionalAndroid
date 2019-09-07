@@ -1,17 +1,28 @@
 package com.wengelef.functionalandroid.di
 
-import com.wengelef.getUsers
-import com.wengelef.saveUser
-import data.*
+import data.provideGetUsersUseCase
+import data.provideLoginUseCase
+import data.userDtoToUser
+import data.validInputToUserName
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import service.loginService
+import util.partially
 
 object DomainModule {
     operator fun invoke() = module {
-        factory {
-            getLoginUseCase(::validInputToUserName, loginRepository(loginService(), saveUser(get())))
+        factory(named("LoginUseCase")) {
+            ::provideLoginUseCase
+                .partially(
+                    ::validInputToUserName,
+                    ::loginService,
+                    get()
+                )
         }
 
-        factory { getUsersUseCase(usersFromRepository(getUsers(get()))) }
+        factory(named("GetUsersUseCase")) {
+            ::provideGetUsersUseCase
+                .partially(get(), ::userDtoToUser)
+        }
     }
 }

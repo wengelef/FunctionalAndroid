@@ -5,9 +5,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import domain.GetUsersUseCase
+import domain.GetUsersUseCaseFn
 import domain.model.LoginInput
-import domain.LoginUseCase
+import domain.LoginUseCaseFn
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -20,8 +20,8 @@ fun Input.validate(): LoginInput = LoginInput(this.value)
 
 class LoginViewModel(
     private val loginTracker: LoginTracker,
-    private val loginUseCase: LoginUseCase,
-    private val getUsersUseCase: GetUsersUseCase
+    private val loginUseCase: LoginUseCaseFn,
+    private val getUsersUseCase: GetUsersUseCaseFn
 ) : ViewModel() {
 
     sealed class LoginViewState {

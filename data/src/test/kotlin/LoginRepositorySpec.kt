@@ -18,7 +18,7 @@ class LoginRepositorySpec : WordSpec() {
 
         "LoginRepository" should {
             "call the LoginService and save the User to DB" {
-                val service: LoginService = { name -> UserDto(name) }
+                val service: LoginServiceFn = { name -> UserDto(name) }
                 val saveUser = SaveUserToDB { Unit }
 
                 val loginRepository = loginRepository(service, saveUser)
