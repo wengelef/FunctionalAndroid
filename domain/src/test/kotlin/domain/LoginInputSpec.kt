@@ -1,5 +1,6 @@
 package domain
 
+import domain.model.LoginInput
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.FreeSpec
 

@@ -1,6 +1,6 @@
 package service
 
 import data.LoginService
-import data.UserDto
+import data.model.UserDto
 
 fun loginService(): LoginService = { username -> UserDto(username) }

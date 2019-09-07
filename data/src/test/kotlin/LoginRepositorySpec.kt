@@ -1,7 +1,8 @@
 import data.*
-import domain.LoginInput
-import domain.User
-import domain.Username
+import data.model.UserDto
+import domain.model.LoginInput
+import domain.model.User
+import domain.model.Username
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.WordSpec
 
@@ -22,7 +23,11 @@ class LoginRepositorySpec : WordSpec() {
 
                 val loginRepository = loginRepository(service, saveUser)
 
-                loginRepository(Username(USERNAME)) shouldBe User(Username(USERNAME))
+                loginRepository(Username(USERNAME)) shouldBe User(
+                    Username(
+                        USERNAME
+                    )
+                )
             }
         }
 
@@ -33,7 +38,11 @@ class LoginRepositorySpec : WordSpec() {
 
                 val loginUseCase = getLoginUseCase(inputMapper, repository)
 
-                loginUseCase(LoginInput.Valid(USERNAME)) shouldBe User(Username(USERNAME))
+                loginUseCase(LoginInput.Valid(USERNAME)) shouldBe User(
+                    Username(
+                        USERNAME
+                    )
+                )
             }
         }
     }

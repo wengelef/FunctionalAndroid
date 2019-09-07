@@ -1,5 +1,7 @@
 package tracking
 
+import tracking.model.Event
+
 typealias LoginTrackerFn = Tracker<LoginEvent>
 
 class LoginTracker(private val loginTrackerFn: LoginTrackerFn) {

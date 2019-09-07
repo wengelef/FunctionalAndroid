@@ -1,3 +1,0 @@
-package tracking
-
-interface Event

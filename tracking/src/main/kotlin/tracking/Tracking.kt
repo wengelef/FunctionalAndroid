@@ -1,5 +1,7 @@
 package tracking
 
+import tracking.model.Event
+
 typealias Tracker<T> = (T) -> Unit
 
 typealias ExternalTracker<T> = (T) -> Unit

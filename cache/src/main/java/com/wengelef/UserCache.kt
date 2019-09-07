@@ -3,7 +3,7 @@ package com.wengelef
 import com.wengelef.cache.Database
 import data.GetUsersFromDB
 import data.SaveUserToDB
-import data.UserDto
+import data.model.UserDto
 
 fun saveUser(database: Database) = SaveUserToDB { userDto ->
     database.userQueries.insert(userDto.username)
