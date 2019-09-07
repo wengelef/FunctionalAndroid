@@ -13,5 +13,4 @@ typealias SaveUserFn = (UserDto) -> Unit
 typealias GetUsersFn = () -> List<UserDto>
 
 // Mappers
-typealias ValidInputToUsername = (LoginInput.Valid) -> Username
 typealias UserDtoToUser = (UserDto) -> User

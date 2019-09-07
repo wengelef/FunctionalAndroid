@@ -2,4 +2,5 @@ apply from: "../kotlinLibrary.gradle"
 
 dependencies {
     implementation project(':domain')
+    implementation project(':util')
 }

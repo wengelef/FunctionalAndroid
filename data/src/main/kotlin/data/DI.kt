@@ -1,5 +1,6 @@
 package data
 
+import domain.ValidInputToUsername
 import domain.model.LoginInput
 import domain.model.User
 

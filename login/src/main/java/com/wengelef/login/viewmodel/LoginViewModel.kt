@@ -14,10 +14,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import tracking.LoginTracker
 
-inline class Input(val value: String)
-
-fun Input.validate(): LoginInput = LoginInput(this.value)
-
 class LoginViewModel(
     private val loginTracker: LoginTracker,
     private val loginUseCase: LoginUseCaseFn,

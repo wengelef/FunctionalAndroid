@@ -1,48 +1,33 @@
-import data.*
+import data.LoginServiceFn
 import data.model.UserDto
+import data.provideLoginUseCase
+import data.userDtoToUser
 import domain.model.LoginInput
 import domain.model.User
 import domain.model.Username
+import domain.model.validInputToUserName
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.WordSpec
+import util.partially
 
 class LoginRepositorySpec : WordSpec() {
 
     init {
-        "ValidInputToUserName" should {
-            "return a Username with the input as Value" {
-                val validInput = LoginInput.Valid(USERNAME)
-                validInputToUserName(validInput) shouldBe Username(USERNAME)
-            }
-        }
-
-        "LoginRepository" should {
-            "call the LoginService and save the User to DB" {
-                val service: LoginServiceFn = { name -> UserDto(name) }
-                val saveUser = SaveUserToDB { Unit }
-
-                val loginRepository = loginRepository(service, saveUser)
-
-                loginRepository(Username(USERNAME)) shouldBe User(
-                    Username(
-                        USERNAME
-                    )
-                )
+        "UserDtoToUser" should {
+            "map a UserDto to a Domain User" {
+                val userDto = UserDto(USERNAME)
+                userDtoToUser(userDto) shouldBe User(Username(USERNAME))
             }
         }
 
         "LoginUseCase" should {
-            "map a Valid Input and call the Repository" {
-                val inputMapper: ValidInputToUsername = { input -> Username(input.value) }
-                val repository: LoginWithRepository = { username -> User(Username(username.value)) }
+            "call the LoginService and Save the User to DB" {
+                val loginService: LoginServiceFn = { name -> UserDto(name) }
+                val loginUseCase =
+                    ::provideLoginUseCase
+                        .partially(::validInputToUserName, loginService, { })
 
-                val loginUseCase = getLoginUseCase(inputMapper, repository)
-
-                loginUseCase(LoginInput.Valid(USERNAME)) shouldBe User(
-                    Username(
-                        USERNAME
-                    )
-                )
+                loginUseCase(LoginInput.Valid(USERNAME)) shouldBe User(Username(USERNAME))
             }
         }
     }
