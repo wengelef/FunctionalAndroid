@@ -22,6 +22,7 @@ dependencies {
     implementation project(':app')
     implementation project(':domain')
     implementation project(':tracking')
+    implementation project(':util')
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.0.2'

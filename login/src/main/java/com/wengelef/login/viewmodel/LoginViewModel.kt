@@ -6,19 +6,18 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import domain.GetUsersUseCaseFn
-import domain.model.LoginInput
 import domain.LoginUseCaseFn
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import domain.model.LoginInput
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import tracking.LoginTracker
+import util.Dispatcher
 
 class LoginViewModel(
     private val loginTracker: LoginTracker,
     private val loginUseCase: LoginUseCaseFn,
-    private val getUsersUseCase: GetUsersUseCaseFn
-) : ViewModel() {
+    private val getUsersUseCase: GetUsersUseCaseFn,
+    private val dispatcher: Dispatcher
+) : ViewModel(), Dispatcher by dispatcher {
 
     sealed class LoginViewState {
         object Idle : LoginViewState()
@@ -31,7 +30,7 @@ class LoginViewModel(
 
     fun login(username: String) {
         viewModelScope.launch {
-            val state = withContext(Dispatchers.IO) {
+            val state = dispatch {
                 Input(username)
                     .validate()
                     .let { input ->
@@ -51,9 +50,7 @@ class LoginViewModel(
 
     fun loadUsers() {
         viewModelScope.launch {
-            CoroutineScope(Dispatchers.IO).launch {
-                Log.e("Users", "${getUsersUseCase()}")
-            }
+            dispatch { Log.e("Users", "${getUsersUseCase()}") }
         }
     }
 }
