@@ -3,7 +3,7 @@ package com.wengelef.functionalandroid.di
 import data.provideGetUsersUseCase
 import data.provideLoginUseCase
 import data.userDtoToUser
-import data.validInputToUserName
+import domain.model.validInputToUserName
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import service.loginService
