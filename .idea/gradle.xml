@@ -16,6 +16,7 @@
             <option value="$PROJECT_DIR$/login" />
             <option value="$PROJECT_DIR$/service" />
             <option value="$PROJECT_DIR$/tracking" />
+            <option value="$PROJECT_DIR$/util" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

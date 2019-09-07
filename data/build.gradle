@@ -1,17 +1,5 @@
-apply plugin: 'kotlin'
-
-test {
-    useJUnitPlatform()
-}
+apply from: "../kotlinLibrary.gradle"
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib"
-
-    testImplementation 'io.kotlintest:kotlintest-runner-junit5:3.3.2'
-    testImplementation "io.mockk:mockk:1.9.1"
-
     implementation project(':domain')
 }
-
-sourceCompatibility = "8"
-targetCompatibility = "8"
