@@ -1,11 +1,9 @@
 package com.wengelef.login.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import domain.GetUsersUseCaseFn
 import domain.LoginUseCaseFn
 import domain.model.LoginInput
 import kotlinx.coroutines.launch
@@ -15,7 +13,6 @@ import util.Dispatcher
 class LoginViewModel(
     private val loginTracker: LoginTracker,
     private val loginUseCase: LoginUseCaseFn,
-    private val getUsersUseCase: GetUsersUseCaseFn,
     private val dispatcher: Dispatcher
 ) : ViewModel(), Dispatcher by dispatcher {
 
@@ -45,12 +42,6 @@ class LoginViewModel(
             }
 
             viewState.value = state
-        }
-    }
-
-    fun loadUsers() {
-        viewModelScope.launch {
-            dispatch { Log.e("Users", "${getUsersUseCase()}") }
         }
     }
 }

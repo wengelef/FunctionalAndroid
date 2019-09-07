@@ -11,7 +11,7 @@ import util.partially
 
 object DomainModule {
     operator fun invoke() = module {
-        factory(named("LoginUseCase")) {
+        factory(named(LOGIN_USECASE)) {
             ::provideLoginUseCase
                 .partially(
                     ::validInputToUserName,
@@ -20,9 +20,12 @@ object DomainModule {
                 )
         }
 
-        factory(named("GetUsersUseCase")) {
+        factory(named(GET_USERS_USECASE)) {
             ::provideGetUsersUseCase
                 .partially(get(), ::userDtoToUser)
         }
     }
+
+    const val LOGIN_USECASE = "LoginUseCase"
+    const val GET_USERS_USECASE = "GetUsersUseCase"
 }
