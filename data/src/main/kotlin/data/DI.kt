@@ -1,24 +1,32 @@
 package data
 
-import domain.ValidInputToUsername
+import arrow.core.Either
+import arrow.core.extensions.either.monad.binding
+import domain.InputToUserName
+import domain.model.LoginError
 import domain.model.LoginInput
+import domain.model.NetworkErrorType
 import domain.model.User
 
 fun provideGetUsersUseCase(
     getUsersFn: GetUsersFn,
     userDtoToUser: UserDtoToUser
-): List<User> = getUsersFn().map(userDtoToUser)
+): Either<DbError, List<User>> = getUsersFn().map { userDtos -> userDtos.map(userDtoToUser) }
 
 fun provideLoginUseCase(
-    inputMapper: ValidInputToUsername,
+    inputMapper: InputToUserName,
     loginService: LoginServiceFn,
     saveUserToDB: SaveUserFn,
-    validInput: LoginInput.Valid
-): User {
-    return validInput.let(inputMapper)
-        .let { username ->
-            val userDto = loginService(username.value)
-            saveUserToDB(userDto)
-            User(username)
-        }
+    input: String
+): Either<LoginError, User> = binding {
+    val (username) = LoginInput(input)
+        .mapLeft { inputError -> LoginError.InvalidInput(inputError) }
+        .map(inputMapper)
+
+    val (userDto) = loginService(username.value)
+        .mapLeft { LoginError.NetworkError(NetworkErrorType.Offline) }
+
+    saveUserToDB(userDto)
+
+    User(username)
 }

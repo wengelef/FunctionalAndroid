@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import domain.LoginUseCaseFn
-import domain.model.LoginInput
 import kotlinx.coroutines.launch
 import tracking.LoginTracker
 import util.Dispatcher
@@ -28,17 +27,11 @@ class LoginViewModel(
     fun login(username: String) {
         viewModelScope.launch {
             val state = dispatch {
-                Input(username)
-                    .validate()
-                    .let { input ->
-                        when (input) {
-                            is LoginInput.Valid -> {
-                                loginUseCase(input)
-                                LoginViewState.Success
-                            }
-                            else -> LoginViewState.InvalidInput
-                        }
-                    }
+                loginUseCase(username)
+                    .fold(
+                        { LoginViewState.InvalidInput },
+                        { LoginViewState.Success }
+                    )
             }
 
             viewState.value = state

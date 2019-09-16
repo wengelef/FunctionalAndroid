@@ -1,4 +1,5 @@
 apply plugin: 'kotlin'
+apply plugin: 'kotlin-kapt'
 
 compileKotlin {
     kotlinOptions {
@@ -11,10 +12,20 @@ test {
 }
 
 dependencies {
+    def arrow_version = "0.9.0"
+
     implementation "org.jetbrains.kotlin:kotlin-stdlib"
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.1'
 
     testImplementation 'io.kotlintest:kotlintest-runner-junit5:3.3.2'
+
+    implementation "io.arrow-kt:arrow-core-data:$arrow_version"
+    implementation "io.arrow-kt:arrow-core-extensions:$arrow_version"
+    implementation "io.arrow-kt:arrow-syntax:$arrow_version"
+    implementation "io.arrow-kt:arrow-typeclasses:$arrow_version"
+    implementation "io.arrow-kt:arrow-extras-data:$arrow_version"
+    implementation "io.arrow-kt:arrow-extras-extensions:$arrow_version"
+    kapt "io.arrow-kt:arrow-meta:$arrow_version"
 }
 
 sourceCompatibility = "8"
