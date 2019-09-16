@@ -53,8 +53,8 @@ dependencies {
 
     implementation "androidx.multidex:multidex:$multidex_version"
 
-    implementation 'androidx.navigation:navigation-fragment:2.0.0'
-    implementation 'androidx.navigation:navigation-ui:2.0.0'
+    implementation 'androidx.navigation:navigation-fragment:2.1.0'
+    implementation 'androidx.navigation:navigation-ui:2.1.0'
 
     implementation "org.koin:koin-core:$koin_version"
     implementation "org.koin:koin-core-ext:$koin_version"
