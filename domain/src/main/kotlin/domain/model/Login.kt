@@ -9,7 +9,7 @@ class LoginInput private constructor(val input: String) {
     companion object {
         operator fun invoke(input: String): Either<LoginInputError, LoginInput> = when {
             input.length < 3 -> Left(LoginInputError.NotEnoughCharacters)
-            input.length > 10 -> Left(LoginInputError.TooManyCharacters)
+            input.length > 30 -> Left(LoginInputError.TooManyCharacters)
             else -> Right(LoginInput(input))
         }
     }
