@@ -44,9 +44,10 @@ class LoginFragment : Fragment() {
             }
         }
 
-        //loginViewModel.loadUsers()
+        loginViewModel.getUsers()
 
         loginButton.setOnClickListener { loginViewModel.login(username_input.text.toString()) }
+        deleteButton.setOnClickListener { loginViewModel.deleteUsers() }
     }
 }
 

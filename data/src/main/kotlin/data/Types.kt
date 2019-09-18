@@ -1,18 +1,16 @@
 package data
 
-import arrow.core.Either
+import arrow.fx.IO
 import data.model.UserDto
-import domain.model.LoginError
-import domain.model.LoginInput
 import domain.model.User
-import domain.model.Username
 
 // Service
-typealias LoginServiceFn = (String) -> Either<LoginServiceError, UserDto>
+typealias LoginServiceFn = (String) -> IO<UserDto>
 
 // Cache
-typealias SaveUserFn = (UserDto) -> Either<DbError, UserDto>
-typealias GetUsersFn = () -> Either<DbError, List<UserDto>>
+typealias SaveUserToDbFn = (UserDto) -> IO<UserDto>
+typealias GetUsersFromDbFn = () -> IO<List<UserDto>>
+typealias DeleteUsersFromDbFn = () -> IO<List<UserDto>>
 
 // Mappers
 typealias UserDtoToUser = (UserDto) -> User

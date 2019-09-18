@@ -1,8 +1,11 @@
 package service
 
-import arrow.core.Either
-import arrow.core.Right
-import data.LoginServiceError
+import arrow.fx.IO
+import arrow.fx.IODispatchers.CommonPool
+import arrow.fx.extensions.fx
 import data.model.UserDto
 
-fun loginService(username: String): Either<LoginServiceError, UserDto> = Right(UserDto(username))
+fun loginService(username: String): IO<UserDto> = IO.fx {
+    continueOn(CommonPool)
+    UserDto(username)
+}

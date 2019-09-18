@@ -29,7 +29,6 @@ android {
 }
 
 dependencies {
-    def arrow_version = "0.9.0"
     def koin_version = '2.0.1'
     def lifecycle_version = "2.1.0-rc01"
     def multidex_version = "2.0.1"
@@ -65,12 +64,10 @@ dependencies {
     implementation "org.koin:koin-androidx-viewmodel:$koin_version"
     implementation "org.koin:koin-androidx-ext:$koin_version"
 
+    def arrow_version = "0.10.0"
     implementation "io.arrow-kt:arrow-core-data:$arrow_version"
-    implementation "io.arrow-kt:arrow-core-extensions:$arrow_version"
+    implementation "io.arrow-kt:arrow-fx:$arrow_version"
     implementation "io.arrow-kt:arrow-syntax:$arrow_version"
-    implementation "io.arrow-kt:arrow-typeclasses:$arrow_version"
-    implementation "io.arrow-kt:arrow-extras-data:$arrow_version"
-    implementation "io.arrow-kt:arrow-extras-extensions:$arrow_version"
     kapt "io.arrow-kt:arrow-meta:$arrow_version"
 
     testImplementation 'junit:junit:4.12'

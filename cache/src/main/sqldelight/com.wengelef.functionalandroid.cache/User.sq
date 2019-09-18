@@ -13,3 +13,6 @@ VALUES (?);
 insertUserObject:
 INSERT INTO UserEntity(username)
 VALUES ?;
+
+deleteAll:
+DELETE FROM UserEntity;

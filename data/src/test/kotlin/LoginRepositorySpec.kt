@@ -1,7 +1,7 @@
 import arrow.core.Right
 import data.LoginServiceFn
 import data.model.UserDto
-import data.provideLoginUseCase
+import data.loginUser
 import data.userDtoToUser
 import domain.model.User
 import domain.model.Username
@@ -24,7 +24,7 @@ class LoginRepositorySpec : WordSpec() {
             "call the LoginService and Save the User to DB" {
                 val loginService: LoginServiceFn = { name -> Right(UserDto(name)) }
                 val loginUseCase =
-                    ::provideLoginUseCase
+                    ::loginUser
                         .partially(::validInputToUserName, loginService, { Right(UserDto(USERNAME)) })
 
                 loginUseCase(USERNAME) shouldBe Right(User(Username(USERNAME)))

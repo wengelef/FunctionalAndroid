@@ -1,10 +1,7 @@
 package com.wengelef.functionalandroid
 
 import androidx.multidex.MultiDexApplication
-import com.wengelef.functionalandroid.di.AnalyticsModule
-import com.wengelef.functionalandroid.di.CacheModule
-import com.wengelef.functionalandroid.di.ConcurrencyModule
-import com.wengelef.functionalandroid.di.DomainModule
+import com.wengelef.functionalandroid.di.*
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
@@ -14,7 +11,12 @@ class App : MultiDexApplication() {
 
         startKoin {
             androidContext(applicationContext)
-            modules(listOf(CacheModule(), DomainModule(), AnalyticsModule(), ConcurrencyModule()))
+            modules(listOf(
+                CacheModule(),
+                DomainModule(),
+                RepositoryModule(),
+                AnalyticsModule(),
+                ConcurrencyModule()))
         }
     }
 

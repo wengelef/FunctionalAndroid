@@ -1,6 +1,7 @@
 package com.wengelef.login.di
 
 import com.wengelef.functionalandroid.di.ConcurrencyModule
+import com.wengelef.functionalandroid.di.DomainModule.DELETE_USERS_USECASE
 import com.wengelef.functionalandroid.di.DomainModule.GET_USERS_USECASE
 import com.wengelef.functionalandroid.di.DomainModule.LOGIN_USECASE
 import com.wengelef.login.viewmodel.LoginViewModel
@@ -15,6 +16,8 @@ object LoginModule {
             LoginViewModel(
                 get(),
                 get(named(LOGIN_USECASE)),
+                get(named(GET_USERS_USECASE)),
+                get(named(DELETE_USERS_USECASE)),
                 get(named(ConcurrencyModule.IO)))
         }
     }
