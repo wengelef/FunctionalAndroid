@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import arrow.core.Either
 import domain.model.deleteusers.DeleteUsersUseCaseFn
 import domain.model.getusers.GetUsersUseCaseFn
 import domain.model.login.LoginUseCaseFn
@@ -50,16 +51,14 @@ class LoginViewModel(
     }
 
     fun login(username: String) {
-        viewModelScope.launch {
-            val state = dispatch {
-                loginUseCase(username)
-                    .fold(
-                        { LoginViewState.InvalidInput },
-                        { LoginViewState.Success }
-                    )
+        loginUseCase(username)
+            .unsafeRunAsync { cb ->
+                cb.map { result ->
+                    when (result) {
+                        is Either.Right -> viewState.value = LoginViewState.Success
+                        is Either.Left -> viewState.value = LoginViewState.InvalidInput
+                    }
+                }
             }
-
-            viewState.value = state
-        }
     }
 }

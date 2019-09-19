@@ -3,13 +3,12 @@ package domain.model.login
 import arrow.core.Either
 import arrow.core.Left
 import arrow.core.Right
-import arrow.core.extensions.fx
+import arrow.core.flatMap
 import arrow.fx.IO
-import arrow.fx.fix
 import domain.model.User
 
 // UseCase
-typealias LoginUseCaseFn = (String) -> Either<LoginError, User>
+typealias LoginUseCaseFn = (String) -> IO<Either<LoginError, User>>
 
 // Repository Interface
 typealias LoginUser = (LoginInput) -> IO<Either<LoginError, User>>
@@ -39,13 +38,10 @@ sealed class NetworkErrorType {
     object Offline : NetworkErrorType()
 }
 
-fun loginUseCase(loginUser: LoginUser, input: String): Either<LoginError, User> = Either.fx {
-    val (loginInput) = LoginInput(input)
-        .mapLeft { loginInputError -> LoginError.InvalidInput(loginInputError) }
-
-    val (user) = loginUser(loginInput).fix()
-        .unsafeRunSync()
-        .mapLeft { LoginError.IOError }
-
-    user
+fun loginUseCase(loginUser: LoginUser, input: String): IO<Either<LoginError, User>> {
+    return IO.just(LoginInput(input)
+        .mapLeft { LoginError.InvalidInput(it) })
+        .map { loginInput ->
+            loginInput.flatMap { validInput -> loginUser(validInput).unsafeRunSync() }
+        }
 }
