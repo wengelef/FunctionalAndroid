@@ -3,7 +3,6 @@ package domain.model.login
 import arrow.core.Either
 import arrow.core.Left
 import arrow.core.Right
-import arrow.core.flatMap
 import arrow.fx.IO
 import domain.model.User
 
@@ -21,6 +20,7 @@ class LoginInput private constructor(val input: String) {
             else -> Right(LoginInput(input))
         }
     }
+
 }
 
 sealed class LoginInputError {
@@ -38,10 +38,11 @@ sealed class NetworkErrorType {
     object Offline : NetworkErrorType()
 }
 
-fun loginUseCase(loginUser: LoginUser, input: String): IO<Either<LoginError, User>> {
-    return IO.just(LoginInput(input)
-        .mapLeft { LoginError.InvalidInput(it) })
-        .map { loginInput ->
-            loginInput.flatMap { validInput -> loginUser(validInput).unsafeRunSync() }
+fun loginUseCase(loginUser: LoginUser, input: String): IO<Either<LoginError, User>> =
+    IO { LoginInput(input).mapLeft { LoginError.InvalidInput(it) } }
+        .flatMap { maybeInput ->
+            maybeInput.fold(
+                { invalidInput -> IO { Left(invalidInput) } },
+                { validInput -> loginUser(validInput) }
+            )
         }
-}
