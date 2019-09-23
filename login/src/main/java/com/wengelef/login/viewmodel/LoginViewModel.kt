@@ -5,7 +5,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import arrow.core.Either
 import domain.model.deleteusers.DeleteUsersUseCaseFn
 import domain.model.getusers.GetUsersUseCaseFn
 import domain.model.login.LoginUseCaseFn
@@ -33,32 +32,40 @@ class LoginViewModel(
     fun deleteUsers() {
         viewModelScope.launch {
             deleteUsersUseCase()
-                .fold(
-                    { deleteUsersError -> Log.e("DeleteUsers", "Error $deleteUsersError") },
-                    { users -> Log.e("DeleteUsers", "Users : $users")}
-                )
+                .unsafeRunAsync {
+                    it.map { result ->
+                        result.fold(
+                            { deleteUsersError -> Log.e("DeleteUsers", "Error ${deleteUsersError}") },
+                            { users -> Log.e("DeleteUsers", "Users : ${users}") }
+                        )
+                    }
+                }
         }
     }
 
     fun getUsers() {
         viewModelScope.launch {
             getUsersUseCase()
-                .fold(
-                    { dbError -> Log.e("GetUsers", "Error $dbError") },
-                    { users -> Log.e("GetUsers", "Users : $users") }
-                )
+                .unsafeRunAsync {
+                    it.map { result ->
+                        result.fold(
+                            { dbError -> Log.e("GetUsers", "Error $dbError") },
+                            { users -> Log.e("GetUsers", "Users : $users") }
+                        )
+                    }
+                }
         }
     }
 
     fun login(username: String) {
-        loginUseCase(username)
-            .unsafeRunAsync { cb ->
-                cb.map { result ->
-                    when (result) {
-                        is Either.Right -> viewState.value = LoginViewState.Success
-                        is Either.Left -> viewState.value = LoginViewState.InvalidInput
-                    }
+        viewModelScope.launch {
+            viewState.value = loginUseCase(username)
+                .map { result ->
+                    result.fold(
+                        { LoginViewState.InvalidInput },
+                        { LoginViewState.Success })
                 }
-            }
+                .unsafeRunSync()
+        }
     }
 }

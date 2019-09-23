@@ -40,7 +40,7 @@ sealed class NetworkErrorType {
 }
 
 fun loginUseCase(loginUser: LoginUser, input: String): IO<Either<LoginError, User>> =
-    IO(CommonPool) { LoginInput(input).mapLeft { LoginError.InvalidInput(it) } }
+    IO { LoginInput(input).mapLeft { LoginError.InvalidInput(it) } }
         .flatMap { maybeInput ->
             maybeInput.fold(
                 { invalidInput -> IO { Left(invalidInput) } },
