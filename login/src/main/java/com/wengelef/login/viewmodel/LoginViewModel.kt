@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import domain.deleteusers.DeleteUsersUseCaseFn
 import domain.getusers.GetUsersUseCaseFn
+import domain.login.LoginError
 import domain.login.LoginUseCaseFn
 import kotlinx.coroutines.launch
 import tracking.LoginTracker
@@ -23,6 +24,7 @@ class LoginViewModel(
     sealed class LoginViewState {
         object Idle : LoginViewState()
         object InvalidInput : LoginViewState()
+        object NetworkError : LoginViewState()
         object Success : LoginViewState()
     }
 
@@ -62,7 +64,13 @@ class LoginViewModel(
             viewState.value = loginUseCase(username)
                 .map { result ->
                     result.fold(
-                        { LoginViewState.InvalidInput },
+                        { loginError ->
+                            when (loginError) {
+                                is LoginError.NetworkError -> LoginViewState.NetworkError
+                                is LoginError.InvalidInput -> LoginViewState.InvalidInput
+                                LoginError.IOError -> LoginViewState.NetworkError
+                            }
+                        },
                         { LoginViewState.Success })
                 }
                 .unsafeRunSync()
