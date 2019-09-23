@@ -4,8 +4,8 @@ import arrow.core.Either
 import arrow.core.Left
 import arrow.fx.IO
 import domain.model.User
-import domain.model.login.LoginError
-import domain.model.login.NetworkErrorType
+import domain.login.LoginError
+import domain.login.NetworkErrorType
 
 fun loginUser(
     loginService: LoginServiceFn,
@@ -14,10 +14,9 @@ fun loginUser(
     validInput: String
 ): IO<Either<LoginError, User>> =
     loginService(validInput).attempt()
-        .map { it.mapLeft { LoginError.NetworkError(NetworkErrorType.Offline) } }
         .flatMap { maybeDto ->
             maybeDto.fold(
-                { IO { Left(LoginError.IOError) } },
+                { IO { Left(LoginError.NetworkError(NetworkErrorType.Offline)) } },
                 { userDto -> saveUserToDB(userDto).attempt()
                     .map { it.mapLeft { LoginError.IOError } }
                 }

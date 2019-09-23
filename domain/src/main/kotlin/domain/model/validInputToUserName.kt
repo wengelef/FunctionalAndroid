@@ -1,6 +1,6 @@
 package domain.model
 
-import domain.model.login.LoginInput
+import domain.login.LoginInput
 
 typealias InputToUserName = (LoginInput) -> Username
 

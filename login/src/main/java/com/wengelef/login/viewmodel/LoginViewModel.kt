@@ -5,9 +5,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import domain.model.deleteusers.DeleteUsersUseCaseFn
-import domain.model.getusers.GetUsersUseCaseFn
-import domain.model.login.LoginUseCaseFn
+import domain.deleteusers.DeleteUsersUseCaseFn
+import domain.getusers.GetUsersUseCaseFn
+import domain.login.LoginUseCaseFn
 import kotlinx.coroutines.launch
 import tracking.LoginTracker
 import util.Dispatcher

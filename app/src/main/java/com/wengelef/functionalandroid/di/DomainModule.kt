@@ -3,9 +3,9 @@ package com.wengelef.functionalandroid.di
 import com.wengelef.functionalandroid.di.RepositoryModule.DELETE_USERS
 import com.wengelef.functionalandroid.di.RepositoryModule.GET_USERS
 import com.wengelef.functionalandroid.di.RepositoryModule.LOGIN_USER
-import domain.model.deleteusers.deleteUsersUseCase
-import domain.model.getusers.getUsersUseCase
-import domain.model.login.loginUseCase
+import domain.deleteusers.deleteUsersUseCase
+import domain.getusers.getUsersUseCase
+import domain.login.loginUseCase
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import util.partially

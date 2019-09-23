@@ -1,17 +1,16 @@
-package domain.model.login
+package domain.login
 
 import arrow.core.Either
 import arrow.core.Left
 import arrow.core.Right
 import arrow.fx.IO
-import arrow.fx.IODispatchers.CommonPool
 import domain.model.User
 
 // UseCase
 typealias LoginUseCaseFn = (String) -> IO<Either<LoginError, User>>
 
 // Repository Interface
-typealias LoginUser = (String) -> IO<Either<LoginError, User>>
+typealias LoginUserFn = (String) -> IO<Either<LoginError, User>>
 
 class LoginInput private constructor(val input: String) {
     companion object {
@@ -39,7 +38,7 @@ sealed class NetworkErrorType {
     object Offline : NetworkErrorType()
 }
 
-fun loginUseCase(loginUser: LoginUser, input: String): IO<Either<LoginError, User>> =
+fun loginUseCase(loginUser: LoginUserFn, input: String): IO<Either<LoginError, User>> =
     IO { LoginInput(input).mapLeft { LoginError.InvalidInput(it) } }
         .flatMap { maybeInput ->
             maybeInput.fold(

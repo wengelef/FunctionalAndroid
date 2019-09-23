@@ -5,7 +5,7 @@ import arrow.core.Left
 import arrow.core.Right
 import arrow.fx.IO
 import domain.model.User
-import domain.model.deleteusers.DeleteUsersError
+import domain.deleteusers.DeleteUsersError
 
 fun deleteUsers(
     deleteUsersFromDb: DeleteUsersFromDbFn,

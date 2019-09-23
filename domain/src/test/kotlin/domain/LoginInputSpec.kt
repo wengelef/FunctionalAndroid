@@ -1,8 +1,8 @@
 package domain
 
 import arrow.core.*
-import domain.model.login.LoginInput
-import domain.model.login.LoginInputError
+import domain.login.LoginInput
+import domain.login.LoginInputError
 import domain.model.Username
 import domain.model.validInputToUserName
 import io.kotlintest.matchers.types.shouldBeTypeOf
