@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.wengelef.functionalandroid.ext.observe
 import com.wengelef.login.R
 import com.wengelef.login.di.LoginModule
@@ -14,6 +15,8 @@ import com.wengelef.login.viewmodel.LoginViewModel
 import kotlinx.android.synthetic.main.fr_login.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.context.loadKoinModules
+
+import com.wengelef.navigation.R as NavR
 
 private val loadFeatures by lazy { loadKoinModules(LoginModule()) }
 private fun injectFeatures() = loadFeatures
@@ -46,7 +49,9 @@ class LoginFragment : Fragment() {
 
         //loginViewModel.loadUsers()
 
-        loginButton.setOnClickListener { loginViewModel.login(username_input.text.toString()) }
+        loginButton.setOnClickListener {
+            findNavController().navigate(NavR.id.action_loginFragment_to_secondFeatureFragment)
+        }
     }
 }
 

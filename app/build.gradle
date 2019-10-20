@@ -23,7 +23,7 @@ android {
     kotlinOptions {
         freeCompilerArgs = ["-XXLanguage:+InlineClasses"]
     }
-    dynamicFeatures = [":login"]
+    dynamicFeatures = [":login", ":secondfeature"]
 
 
 }
@@ -42,6 +42,7 @@ dependencies {
     implementation project(':service')
     implementation project(':cache')
     implementation project(':util')
+    api project(':navigation')
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.1.0'

@@ -1,1 +1,1 @@
-include ':app', ':tracking', ':analytics', ':domain', ':data', ':service', ':cache', ':login', ':util'
+include ':app', ':tracking', ':analytics', ':domain', ':data', ':service', ':cache', ':login', ':util', ':navigation', ':secondfeature'
