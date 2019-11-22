@@ -37,7 +37,7 @@ class LoginViewModel(
 
     fun deleteUsers() {
         IO.fx {
-            val result = !deleteUsersUseCase().attempt()
+            val result = !deleteUsersUseCase()
             continueOn(Dispatchers.Main)
             result.fold(
                 { deleteUsersError -> Log.e("DeleteUsers", "Error ${deleteUsersError}") },
@@ -48,7 +48,7 @@ class LoginViewModel(
 
     fun getUsers() {
         IO.fx {
-            val result = !getUsersUseCase().attempt()
+            val result = !getUsersUseCase()
             continueOn(Dispatchers.Main)
             result.fold(
                 { dbError -> Log.e("GetUsers", "Error $dbError") },
@@ -59,12 +59,9 @@ class LoginViewModel(
 
     fun login(username: String) {
         IO.fx {
-            val result = !loginUseCase(username).attempt()
+            val result = !loginUseCase(username)
             continueOn(Dispatchers.Main)
-            viewState.value = result.fold(
-                { LoginViewState.UnexpectedError },
-                ::loginResultToViewState
-            )
+            viewState.value = result.fold(::loginErrorToViewState, ::loginResultToViewState)
         }.unsafeRunAsync(::onUnexpectedError)
     }
 
@@ -72,14 +69,11 @@ class LoginViewModel(
         result.mapLeft { viewState.value = LoginViewState.UnexpectedError }
     }
 
-    private fun loginResultToViewState(result: Either<LoginError, User>): LoginViewState =
-        result.fold(
-            { loginError ->
-                when (loginError) {
-                    is LoginError.NetworkError -> LoginViewState.NetworkError
-                    is LoginError.InvalidInput -> LoginViewState.InvalidInput
-                    LoginError.IOError -> LoginViewState.NetworkError
-                }
-            },
-            { LoginViewState.Success })
+    private fun loginErrorToViewState(loginError: LoginError): LoginViewState = when (loginError) {
+        is LoginError.NetworkError -> LoginViewState.NetworkError
+        is LoginError.InvalidInput -> LoginViewState.InvalidInput
+        LoginError.IOError -> LoginViewState.NetworkError
+    }
+
+    private fun loginResultToViewState(result: User): LoginViewState = LoginViewState.Success
 }
