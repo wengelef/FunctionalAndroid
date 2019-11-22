@@ -2,9 +2,9 @@ package com.wengelef.functionalandroid.di
 
 import com.wengelef.cache.DB
 import com.wengelef.cache.Database
-import com.wengelef.deleteUsersFromDB
-import com.wengelef.getUsersFromDB
-import com.wengelef.saveUserToDB
+import com.wengelef.cache.deleteUsersFromDB
+import com.wengelef.cache.getUsersFromDB
+import com.wengelef.cache.saveUserToDB
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import util.partially
