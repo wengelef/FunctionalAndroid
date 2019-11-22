@@ -4,11 +4,11 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
     defaultConfig {
         applicationId "com.wengelef.functionalandroid"
         minSdkVersion 22
-        targetSdkVersion 28
+        targetSdkVersion 29
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -23,14 +23,11 @@ android {
     kotlinOptions {
         freeCompilerArgs = ["-XXLanguage:+InlineClasses"]
     }
-    dynamicFeatures = [":login"]
-
-
 }
 
 dependencies {
     def koin_version = '2.0.1'
-    def lifecycle_version = "2.1.0-rc01"
+    def lifecycle_version = "2.1.0"
     def multidex_version = "2.0.1"
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -41,6 +38,7 @@ dependencies {
     implementation project(':data')
     implementation project(':service')
     implementation project(':cache')
+    implementation project(':login')
     implementation project(':util')
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
@@ -64,7 +62,7 @@ dependencies {
     implementation "org.koin:koin-androidx-viewmodel:$koin_version"
     implementation "org.koin:koin-androidx-ext:$koin_version"
 
-    def arrow_version = "0.10.0"
+    def arrow_version = "0.10.3"
     implementation "io.arrow-kt:arrow-core-data:$arrow_version"
     implementation "io.arrow-kt:arrow-fx:$arrow_version"
     implementation "io.arrow-kt:arrow-syntax:$arrow_version"

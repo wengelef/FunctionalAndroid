@@ -1,4 +1,4 @@
-package com.wengelef.functionalandroid.ext
+package com.wengelef.autil
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData

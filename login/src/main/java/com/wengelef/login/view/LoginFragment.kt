@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.wengelef.functionalandroid.ext.observe
+import com.wengelef.autil.observe
 import com.wengelef.login.R
 import com.wengelef.login.di.LoginModule
 import com.wengelef.login.viewmodel.LoginViewModel

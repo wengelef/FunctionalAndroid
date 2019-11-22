@@ -1,9 +1,9 @@
 package com.wengelef.login.di
 
-import com.wengelef.functionalandroid.di.ConcurrencyModule
-import com.wengelef.functionalandroid.di.DomainModule.DELETE_USERS_USECASE
-import com.wengelef.functionalandroid.di.DomainModule.GET_USERS_USECASE
-import com.wengelef.functionalandroid.di.DomainModule.LOGIN_USECASE
+import com.wengelef.autil.di.DELETE_USERS_USE_CASE
+import com.wengelef.autil.di.GET_USERS_USE_CASE
+import com.wengelef.autil.di.IO
+import com.wengelef.autil.di.LOGIN_USE_CASE
 import com.wengelef.login.viewmodel.LoginViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.module.Module
@@ -15,10 +15,10 @@ object LoginModule {
         viewModel {
             LoginViewModel(
                 get(),
-                get(named(LOGIN_USECASE)),
-                get(named(GET_USERS_USECASE)),
-                get(named(DELETE_USERS_USECASE)),
-                get(named(ConcurrencyModule.IO)))
+                get(named(LOGIN_USE_CASE)),
+                get(named(GET_USERS_USE_CASE)),
+                get(named(DELETE_USERS_USE_CASE)),
+                get(named(IO)))
         }
     }
 }

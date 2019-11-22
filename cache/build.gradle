@@ -5,12 +5,12 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'com.squareup.sqldelight'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
 
 
     defaultConfig {
         minSdkVersion 22
-        targetSdkVersion 28
+        targetSdkVersion 29
         versionCode 1
         versionName "1.0"
 
@@ -34,7 +34,7 @@ dependencies {
 
     implementation "com.squareup.sqldelight:android-driver:1.1.4"
 
-    def arrow_version = "0.10.0"
+    def arrow_version = "0.10.3"
     implementation "io.arrow-kt:arrow-core-data:$arrow_version"
     implementation "io.arrow-kt:arrow-fx:$arrow_version"
     implementation "io.arrow-kt:arrow-syntax:$arrow_version"

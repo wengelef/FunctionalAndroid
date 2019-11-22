@@ -1,14 +1,14 @@
-apply plugin: 'com.android.dynamic-feature'
+apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
 
     defaultConfig {
         minSdkVersion 22
-        targetSdkVersion 28
+        targetSdkVersion 29
         versionCode 1
         versionName "1.0"
     }
@@ -16,13 +16,12 @@ android {
 
 dependencies {
     def koin_version = '2.0.1'
-    def lifecycle_version = "2.1.0-rc01"
+    def lifecycle_version = "2.1.0"
 
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation project(':app')
     implementation project(':domain')
     implementation project(':tracking')
     implementation project(':util')
+    implementation project(':autil')
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.1.0'
@@ -40,7 +39,7 @@ dependencies {
     implementation "org.koin:koin-androidx-viewmodel:$koin_version"
     implementation "org.koin:koin-androidx-ext:$koin_version"
 
-    def arrow_version = "0.10.0"
+    def arrow_version = "0.10.3"
     implementation "io.arrow-kt:arrow-core-data:$arrow_version"
     implementation "io.arrow-kt:arrow-fx:$arrow_version"
     implementation "io.arrow-kt:arrow-syntax:$arrow_version"
