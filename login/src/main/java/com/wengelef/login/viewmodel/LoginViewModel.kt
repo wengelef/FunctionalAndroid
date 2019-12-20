@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import arrow.core.Either
 import arrow.fx.IO
 import arrow.fx.extensions.fx
+import com.wengelef.login.view.ViewState
 import domain.deleteusers.DeleteUsersUseCaseFn
 import domain.getusers.GetUsersUseCaseFn
 import domain.login.LoginError
@@ -24,7 +25,7 @@ class LoginViewModel(
     private val dispatcher: Dispatcher
 ) : ViewModel(), Dispatcher by dispatcher {
 
-    sealed class LoginViewState {
+    sealed class LoginViewState : ViewState {
         object Idle : LoginViewState()
         object InvalidInput : LoginViewState()
         object NetworkError : LoginViewState()
@@ -40,8 +41,8 @@ class LoginViewModel(
             val result = !deleteUsersUseCase()
             continueOn(Dispatchers.Main)
             result.fold(
-                { deleteUsersError -> Log.e("DeleteUsers", "Error ${deleteUsersError}") },
-                { users -> Log.e("DeleteUsers", "Users : ${users}") }
+                { deleteUsersError -> Log.e("DeleteUsers", "Error $deleteUsersError") },
+                { users -> Log.e("DeleteUsers", "Users : $users") }
             )
         }.unsafeRunAsync(::onUnexpectedError)
     }

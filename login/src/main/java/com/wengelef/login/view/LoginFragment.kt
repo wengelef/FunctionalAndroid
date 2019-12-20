@@ -1,17 +1,15 @@
 package com.wengelef.login.view
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.wengelef.autil.observe
 import com.wengelef.login.R
+import com.wengelef.login.databinding.FrLoginBinding
 import com.wengelef.login.di.LoginModule
 import com.wengelef.login.viewmodel.LoginViewModel
-import kotlinx.android.synthetic.main.fr_login.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.context.loadKoinModules
 
@@ -19,8 +17,6 @@ private val loadFeatures by lazy { loadKoinModules(LoginModule()) }
 private fun injectFeatures() = loadFeatures
 
 class LoginFragment : Fragment() {
-
-    private val loginViewModel by viewModel<LoginViewModel>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fr_login, container, false)
@@ -31,23 +27,43 @@ class LoginFragment : Fragment() {
 
         injectFeatures()
 
-        observe(loginViewModel.getViewState()) { state ->
-            Log.e("State", "$state")
+        val loginViewModel by viewModel<LoginViewModel>()
 
+        val binding = FrLoginBinding.bind(view)
+
+        val invalidInputBinder = InvalidInputViewStateBinder(binding)
+        val successViewStateBinder = SuccessViewStateBinder(binding)
+
+        observe(loginViewModel.getViewState()) { state ->
             when (state) {
-                LoginViewModel.LoginViewState.InvalidInput -> {
-                    Toast.makeText(context, "Input must be 3 or more Characters", Toast.LENGTH_LONG).show()
-                }
-                LoginViewModel.LoginViewState.Success -> {
-                    Toast.makeText(context, "Success!", Toast.LENGTH_LONG).show()
-                }
+                is LoginViewModel.LoginViewState.InvalidInput -> invalidInputBinder.onStateUpdate(state)
+                is LoginViewModel.LoginViewState.Success -> successViewStateBinder.onStateUpdate(state)
             }
         }
 
         loginViewModel.getUsers()
 
-        loginButton.setOnClickListener { loginViewModel.login(username_input.text.toString()) }
-        deleteButton.setOnClickListener { loginViewModel.deleteUsers() }
+        binding.apply {
+            loginButton.setOnClickListener { loginViewModel.login(usernameInput.text.toString()) }
+            deleteButton.setOnClickListener { loginViewModel.deleteUsers() }
+        }
     }
 }
 
+interface ViewState
+
+interface ViewStateBinder<T : ViewState> {
+    fun onStateUpdate(state: T)
+}
+
+class InvalidInputViewStateBinder(private val binding: FrLoginBinding) : ViewStateBinder<LoginViewModel.LoginViewState.InvalidInput> {
+    override fun onStateUpdate(state: LoginViewModel.LoginViewState.InvalidInput) {
+        binding.resultText.text = "Invalid Input"
+    }
+}
+
+class SuccessViewStateBinder(private val binding: FrLoginBinding) : ViewStateBinder<LoginViewModel.LoginViewState.Success> {
+    override fun onStateUpdate(state: LoginViewModel.LoginViewState.Success) {
+        binding.resultText.text = "Success!"
+    }
+}

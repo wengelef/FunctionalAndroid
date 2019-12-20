@@ -10,6 +10,8 @@ android {
         minSdkVersion 22
         targetSdkVersion 29
     }
+
+    buildFeatures.viewBinding = true
 }
 
 dependencies {
@@ -42,4 +44,7 @@ dependencies {
     implementation "io.arrow-kt:arrow-fx:$arrow_version"
     implementation "io.arrow-kt:arrow-syntax:$arrow_version"
     kapt "io.arrow-kt:arrow-meta:$arrow_version"
+
+    testImplementation 'io.kotlintest:kotlintest-runner-junit5:3.4.2'
+    testImplementation 'io.mockk:mockk:1.9.3'
 }
