@@ -3,6 +3,10 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
+apply from: '../dependencies/arrow.gradle'
+apply from: '../dependencies/koin.gradle'
+apply from: '../dependencies/androidx.gradle'
+
 android {
     compileSdkVersion 29
     defaultConfig {
@@ -26,10 +30,6 @@ android {
 }
 
 dependencies {
-    def koin_version = '2.0.1'
-    def lifecycle_version = "2.2.0"
-    def multidex_version = "2.0.1"
-
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation project(':analytics')
@@ -42,33 +42,4 @@ dependencies {
     implementation project(':util')
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.core:core-ktx:1.2.0'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-
-    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
-
-    implementation "androidx.multidex:multidex:$multidex_version"
-
-    implementation 'androidx.navigation:navigation-fragment:2.2.1'
-    implementation 'androidx.navigation:navigation-ui:2.2.1'
-
-    implementation "org.koin:koin-core:$koin_version"
-    implementation "org.koin:koin-core-ext:$koin_version"
-    testImplementation "org.koin:koin-test:$koin_version"
-    implementation "org.koin:koin-android:$koin_version"
-    implementation "org.koin:koin-androidx-scope:$koin_version"
-    implementation "org.koin:koin-androidx-viewmodel:$koin_version"
-    implementation "org.koin:koin-androidx-ext:$koin_version"
-
-    def arrow_version = "0.10.4"
-    implementation "io.arrow-kt:arrow-core-data:$arrow_version"
-    implementation "io.arrow-kt:arrow-fx:$arrow_version"
-    implementation "io.arrow-kt:arrow-syntax:$arrow_version"
-    kapt "io.arrow-kt:arrow-meta:$arrow_version"
-
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.2.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 }

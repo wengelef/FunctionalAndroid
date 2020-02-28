@@ -1,17 +1,18 @@
 package com.wengelef.login.view
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.wengelef.autil.observe
 import com.wengelef.login.R
+import com.wengelef.login.databinding.FrLoginBinding
 import com.wengelef.login.di.LoginModule
+import com.wengelef.login.viewmodel.InvalidInput
 import com.wengelef.login.viewmodel.LoginViewModel
-import kotlinx.android.synthetic.main.fr_login.*
+import com.wengelef.login.viewmodel.LoginViewState
+import com.wengelef.login.viewmodel.Success
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.context.loadKoinModules
 
@@ -31,23 +32,22 @@ class LoginFragment : Fragment() {
 
         injectFeatures()
 
-        observe(loginViewModel.getViewState()) { state ->
-            Log.e("State", "$state")
+        val binding = FrLoginBinding.bind(view)
 
-            when (state) {
-                LoginViewModel.LoginViewState.InvalidInput -> {
-                    Toast.makeText(context, "Input must be 3 or more Characters", Toast.LENGTH_LONG).show()
-                }
-                LoginViewModel.LoginViewState.Success -> {
-                    Toast.makeText(context, "Success!", Toast.LENGTH_LONG).show()
-                }
-            }
+        observe(loginViewModel.getViewState()) { state -> bindState(state, binding) }
+
+        binding.apply {
+            loginButton.setOnClickListener { loginViewModel.login(usernameInput.text.toString()) }
+            deleteButton.setOnClickListener { loginViewModel.deleteUsers() }
         }
 
         loginViewModel.getUsers()
+    }
 
-        loginButton.setOnClickListener { loginViewModel.login(username_input.text.toString()) }
-        deleteButton.setOnClickListener { loginViewModel.deleteUsers() }
+    private fun bindState(state: LoginViewState, binding: FrLoginBinding) {
+        when (state) {
+            is InvalidInput -> InvalidInputViewStateBinder.bind(state, binding)
+            is Success -> SuccessViewStateBinder.bind(state, binding)
+        }
     }
 }
-

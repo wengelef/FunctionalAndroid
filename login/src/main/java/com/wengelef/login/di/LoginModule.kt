@@ -17,8 +17,8 @@ object LoginModule {
                 get(),
                 get(named(LOGIN_USE_CASE)),
                 get(named(GET_USERS_USE_CASE)),
-                get(named(DELETE_USERS_USE_CASE)),
-                get(named(IO)))
+                get(named(DELETE_USERS_USE_CASE))
+            )
         }
     }
 }

@@ -14,25 +14,24 @@ import domain.login.LoginUseCaseFn
 import domain.model.User
 import kotlinx.coroutines.Dispatchers
 import tracking.LoginTracker
-import util.Dispatcher
+
+sealed class LoginViewState
+object Idle : LoginViewState()
+object InvalidInput : LoginViewState()
+object NetworkError : LoginViewState()
+object Success : LoginViewState()
+object UnexpectedError : LoginViewState()
 
 class LoginViewModel(
     private val loginTracker: LoginTracker,
     private val loginUseCase: LoginUseCaseFn,
     private val getUsersUseCase: GetUsersUseCaseFn,
-    private val deleteUsersUseCase: DeleteUsersUseCaseFn,
-    private val dispatcher: Dispatcher
-) : ViewModel(), Dispatcher by dispatcher {
+    private val deleteUsersUseCase: DeleteUsersUseCaseFn
+) : ViewModel() {
 
-    sealed class LoginViewState {
-        object Idle : LoginViewState()
-        object InvalidInput : LoginViewState()
-        object NetworkError : LoginViewState()
-        object Success : LoginViewState()
-        object UnexpectedError : LoginViewState()
-    }
+    private val viewState = MutableLiveData<LoginViewState>()
+        .apply { value = Idle }
 
-    private val viewState = MutableLiveData<LoginViewState>().apply { value = LoginViewState.Idle }
     fun getViewState(): LiveData<LoginViewState> = viewState
 
     fun deleteUsers() {
@@ -40,8 +39,8 @@ class LoginViewModel(
             val result = !deleteUsersUseCase()
             continueOn(Dispatchers.Main)
             result.fold(
-                { deleteUsersError -> Log.e("DeleteUsers", "Error ${deleteUsersError}") },
-                { users -> Log.e("DeleteUsers", "Users : ${users}") }
+                { deleteUsersError -> Log.e("DeleteUsers", "Error $deleteUsersError") },
+                { users -> Log.e("DeletUsers", "Users : $users") }
             )
         }.unsafeRunAsync(::onUnexpectedError)
     }
@@ -66,14 +65,14 @@ class LoginViewModel(
     }
 
     private fun <T> onUnexpectedError(result: Either<Throwable, T>) {
-        result.mapLeft { viewState.value = LoginViewState.UnexpectedError }
+        result.mapLeft { viewState.value = UnexpectedError }
     }
 
     private fun loginErrorToViewState(loginError: LoginError): LoginViewState = when (loginError) {
-        is LoginError.NetworkError -> LoginViewState.NetworkError
-        is LoginError.InvalidInput -> LoginViewState.InvalidInput
-        LoginError.IOError -> LoginViewState.NetworkError
+        is LoginError.NetworkError -> NetworkError
+        is LoginError.InvalidInput -> InvalidInput
+        LoginError.IOError -> NetworkError
     }
 
-    private fun loginResultToViewState(result: User): LoginViewState = LoginViewState.Success
+    private fun loginResultToViewState(result: User): LoginViewState = Success
 }
